@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Add necessary meta tags, styles, scripts, etc. here -->
+    <title>파일 버전 목록</title>
+</head>
+<body>
+<h3>버전별 목록</h3>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">버전</th>
+        <th scope="col">다운로드</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="file : ${versionFiles}">
+        <td>
+            <span th:text="${file.version}"></span>
+        </td>
+        <td>
+            <button th:onclick="'showComparisonPopup(' + ${file.id} + ');" class="btn btn-primary">비교하기</button>
+            <a th:href="@{/file/delete/{fileId}(fileId=${file.id})}" class="btn btn-danger">삭제</a>
+            <a th:href="@{/file/download/{versionId}(versionId=${file.id})}" class="btn btn-primary">다운로드</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Add any additional scripts or styling as needed -->
+<script>
+    function showComparisonPopup(fileId) {
+        const url = `/file/versions/${fileId}`;
+        window.open(url, 'VersionComparison', 'width=800,height=600');
+    }
+</script>
+</body>
+</html>

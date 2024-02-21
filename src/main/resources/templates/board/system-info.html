@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- your head content here -->
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">System Information</h5>
+      <p>CPU Info: <span th:text="${cpuInfo}">No CPU Info</span></p>
+      <p>Memory Info: <span th:text="${memoryInfo}">No Memory Info</span></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

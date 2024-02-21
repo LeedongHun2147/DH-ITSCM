@@ -1,0 +1,39 @@
+<!-- mailRecords.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head('게시판')">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('board')">
+</nav>
+<div class="container">
+<h2>메일 전송 보관함</h2>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>보낸이</th>
+        <th>직급</th>
+        <th>받는이</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>보낸시간</th>
+        <!-- 기타 필요한 열들 -->
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 이메일 기록들을 반복해서 출력 -->
+    <tr th:each="mailRecord : ${mailRecords}">
+        <td th:text="${mailRecord.user.username}"></td>
+        <td th:text="${mailRecord.user.job}"></td>
+        <td th:text="${mailRecord.recipient}"></td>
+        <td th:text="${mailRecord.subject}"></td>
+        <td th:text="${mailRecord.body}"></td>
+        <td th:text="${mailRecord.sendTime}"></td>
+        <!-- 기타 필요한 열들 -->
+    </tr>
+    </tbody>
+</table>
+</div>
+
+</body>
+</html>

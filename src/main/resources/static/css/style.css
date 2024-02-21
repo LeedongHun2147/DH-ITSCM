@@ -1,0 +1,12 @@
+/* 이전 버전에 추가된 부분에 대한 스타일 */
+.added {
+    background-color: yellow; /* 변경된 부분을 노란색으로 표시 */
+    font-weight: bold; /* 글꼴을 굵게 표시 */
+}
+
+/* 기본 텍스트 스타일 */
+pre {
+    font-family: "Courier New", monospace; /* 고정폭 글꼴 사용 */
+    white-space: pre-wrap; /* 텍스트 줄 바꿈 활성화 */
+    margin: 0; /* 외부 여백 제거 */
+}

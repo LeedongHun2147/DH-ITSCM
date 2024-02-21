@@ -1,0 +1,84 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head('게시판')">
+  <!-- 생략... -->
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('board')">
+</nav>
+
+<div class="container">
+  <h2>SCM</h2>
+
+  <!-- 파일 업로드 폼 -->
+  <form method="post" action="/file/upload" enctype="multipart/form-data">
+    <input type="file" name="file" required>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button type="submit" class="btn btn-primary">파일 업로드</button>
+  </form>
+
+
+  <!-- 게시글 목록 -->
+  <!-- 생략... -->
+
+  <!-- 파일 목록 -->
+  <h3>파일 목록</h3>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">파일명</th>
+      <th scope="col">업로더</th>
+      <th scope="col">파일버전</th>
+      <th scope="col">업로드 시간</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="file : ${files}">
+      <td>
+        <span th:text="${file.originalFilename}"></span>
+        <span th:if="${file.isNewlyUpdated}" class="badge badge-success">new</span> <!-- new label -->
+      </td>
+      <td>
+        <span th:if="${file.uploader != null}" th:text="${file.uploader.username}"></span>
+      </td>
+      <td>
+        <span th:text="${file.version}"></span>
+      </td>
+      <td>
+        <span th:text="${#temporals.format(file.uploadTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+      </td>
+
+
+
+      <td>
+        <a th:href="@{/file/download/{versionId}(versionId=${file.id})}" onclick="return confirmEdit();" class="btn btn-primary">다운로드</a>
+        <button th:onclick="'showComparisonPage(' + ${file.id} + ');'" class="btn btn-primary">비교하기</button>
+
+        <a th:href="@{/file/delete/{fileId}(fileId=${file.id})}"onclick="return confirmEdit1();" class="btn btn-danger">삭제</a>
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+
+</div>
+
+<!-- 스크립트들... -->
+<script>
+function showComparisonPage(fileId) {
+    const url = `/file/versions/${fileId}`;
+    window.location.href = url; // 현재 창의 URL을 새로운 URL로 변경하여 이동
+}
+
+ function confirmEdit() {
+        return confirm("다운로드하시겠습니까?");
+    }
+     function confirmEdit1() {
+        return confirm("삭제하시겠습니까??");
+    }
+</script>
+</body>
+</html>

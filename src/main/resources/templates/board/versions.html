@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/common :: head('게시판')">
+    <!-- 필요한 메타태그, 스타일, 스크립트 등을 여기에 추가 -->
+    <title>파일 버전 비교</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('board')">
+</nav>
+<div class="container">
+
+    <div class="version-container">
+        <h3>이전 버전</h3>
+        <div class="form-group" th:if="${previousVersion != null}">
+            <p>파일 이름:<span th:text="${currentVersion.originalFilename}"></span></p>
+            <p>업로자: <span th:if="${file.uploader != null}" th:text="${file.uploader.username}"></span></p>
+            <p>업로드 시간:<span th:text="${#temporals.format(file.uploadTime, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+            <p>버전: <span th:text="${previousVersion.version}"></span></p>
+            <p>내용<pre id="previous-content" th:utext="${previousContent}"></pre></p>
+        </div>
+    </div>
+
+    <div class="version-container">
+        <h3>현재 버전</h3>
+        <div class="form-group">
+            <p>파일 이름:<span th:text="${currentVersion.originalFilename}"></span></p>
+            <p>업로자: <span th:if="${file.uploader != null}" th:text="${file.uploader.username}"></span></p>
+            <p>업로드 시간:<span th:text="${#temporals.format(file.uploadTime, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+            <p>버전: <span th:text="${currentVersion.version}"></span></p>
+           <p>내용<pre id="current-content" th:utext="${currentContent}"></pre></p>
+        </div>
+    </div>
+
+</div>
+<script>
+    // 비교 함수
+    function compareContents() {
+        var previousContent = document.getElementById("previous-content").innerText;
+        var currentContent = document.getElementById("current-content").innerText;
+
+        var previousLines = previousContent.split('\n');
+        var currentLines = currentContent.split('\n');
+        var resultHtml = '';
+
+        for (var i = 0; i < currentLines.length; i++) {
+            if (currentLines[i] !== previousLines[i]) {
+                resultHtml += '<div class="changed">' + currentLines[i] + '</div>';
+            } else {
+                resultHtml += '<div>' + currentLines[i] + '</div>';
+            }
+        }
+
+        document.getElementById("current-content").innerHTML = resultHtml;
+    }
+
+    // 페이지 로드시 비교 수행
+    window.addEventListener('load', compareContents);
+</script>
+
+</body>
+
+</html>
